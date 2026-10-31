@@ -225,16 +225,9 @@ O [relatório de validação](backend/docs/validacao.md) detalha o alcance das v
 ## Próximas etapas
 
 - [ ] Conectar as telas ao contrato da API e substituir o estado simulado dos fluxos de negócio.
-- [ ] Integrar notificações SSE, contagem regressiva e alertas do lojista aos eventos reais do backend.
-- [ ] Concluir as telas de OAuth e tokenização de cartão e homologar o Mercado Pago em conta de teste.
+- [ ] Integrar notificações SSE, contagem regressiva e alertas do lojista aos eventos reais do backend.- [ ] Concluir as telas de OAuth e tokenização de cartão e homologar o Mercado Pago em conta de teste.
 - [ ] Validar PostgreSQL e execução em containers com testes de integração.
 - [ ] Automatizar build e testes em integração contínua.
 - [ ] Publicar um ambiente de demonstração com dados de exemplo.
 
 As previsões financeiras D+7/D+1 e antecipação representam registros internos; sua execução bancária depende do provedor e de homologação comercial. Os limites e as configurações estão descritos na [documentação da integração](backend/README.md#mercado-pago).
-
-## Autor
-
-**Eduardo Campos Aguiar** · [GitHub @eduardoaguiarc](https://github.com/eduardoaguiarc)
-
-Projeto de portfólio voltado a oportunidades de **estágio em desenvolvimento de software**, com interesse em **backend Java e Spring**. O PetHub reúne modelagem de negócio, implementação de regras, persistência, segurança e testes em um domínio próximo de uma operação real.
