@@ -1,0 +1,6753 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PetHub API",
+    "description": "Marketplace local pet — PRC-01, PRC-02 e PRC-03. Valores em BRL; datas ISO-8601 com fuso.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/v1/pets/{id}": {
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "pet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PetInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "deletePet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)"
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida"
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão"
+          },
+          "404": {
+            "description": "Recurso não encontrado"
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/store": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "owned",
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "update",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShopInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "createShop",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShopInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/services/{id}": {
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "updateService",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/products/{id}": {
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/payout-preference": {
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "payout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayoutInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/bays/{id}": {
+      "put": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "updateBay",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BayInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/webhooks/mercadopago": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "webhook",
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)"
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida"
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão"
+          },
+          "404": {
+            "description": "Recurso não encontrado"
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "mercadoPagoSignature": []
+          }
+        ]
+      }
+    },
+    "/api/v1/pets": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "pets",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "pet_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PetInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "orders",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "checkout",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Checkout"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders/{id}/review": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "review",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders/{id}/cancel": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders/{id}/addons/{addonId}/decision": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "decide",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "addonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOnDecision"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/windows": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "windows",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BayWindow"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BayWindow"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BayWindow"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BayWindow"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BayWindow"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "createWindow",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WindowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayWindow"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/services": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "merchantServices",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "createService",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroomingService"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/products": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "merchantProducts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "createProduct",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/triage": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "triage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Triage"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/stage": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "stage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/reject": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "reject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/ready": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "ready",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/dispatch": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "dispatch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/complete": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "complete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/check-in": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "checkIn",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/cancel-sanitary": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "cancelSanitary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/behavior": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "behavior",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BehaviorNote"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/addons": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "addOn",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOnInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOn"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/accept": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "accept",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Purchase"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/mercadopago/connect": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "connect",
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/mercadopago/callback": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "callback",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuthInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/bays": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "bays",
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bay"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bay"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bay"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bay"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bay"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "createBay",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BayInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bay"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "logout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)"
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida"
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão"
+          },
+          "404": {
+            "description": "Recurso não encontrado"
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/stores/{id}/suspend": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "suspend",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/stores/{id}/approve": {
+      "post": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "approve",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/payments/{id}/reconcile": {
+      "post": {
+        "tags": [
+          "finance-admin-controller"
+        ],
+        "operationId": "reconcile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconcileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/stores": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "stores",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "radiusKm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "default": 10.0
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "distance"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreResult"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreResult"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreResult"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreResult"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "store",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shop"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}/services": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "services",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroomingService"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}/reviews": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "reviews",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}/products": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "products",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "maxLength": 100,
+              "minLength": 0
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}/payment-config": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "paymentConfig",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/stores/{id}/availability": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "availability",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "serviceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PEQUENO",
+                "MEDIO",
+                "GRANDE"
+              ]
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Slot"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Slot"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Slot"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Slot"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Slot"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/pets/{id}/history": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "history",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/orders/{id}/payments": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "payments",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "events",
+        "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/stream": {
+      "get": {
+        "tags": [
+          "event-controller"
+        ],
+        "operationId": "stream",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Last-Event-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/receivables": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "receivables",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receivable"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receivable"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receivable"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receivable"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receivable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "merchantOrders",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDENTE_CONFIRMACAO",
+                "ACEITO_EM_PREPARO",
+                "EM_ATENDIMENTO_ESTETICA",
+                "PRONTO_RETIRADA",
+                "SAIU_PARA_ENTREGA",
+                "CONCLUIDO",
+                "RECUSADO_OU_TIMEOUT",
+                "CANCELADO",
+                "NO_SHOW"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Purchase"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/orders/{id}/work-order": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "workOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "me",
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/stores": {
+      "get": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "pendingStores",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shop"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shop"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shop"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shop"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shop"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/payments": {
+      "get": {
+        "tags": [
+          "finance-admin-controller"
+        ],
+        "operationId": "attention",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0,
+              "maximum": 100000,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/merchant/windows/{id}": {
+      "delete": {
+        "tags": [
+          "api-controller"
+        ],
+        "operationId": "removeWindow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Formato ou validação inválida (Problem Details)"
+          },
+          "401": {
+            "description": "Credencial ou assinatura inválida"
+          },
+          "403": {
+            "description": "Perfil ou proprietário sem permissão"
+          },
+          "404": {
+            "description": "Recurso não encontrado"
+          },
+          "409": {
+            "description": "Regra de negócio ou concorrência impediu a operação"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PetInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "CAO",
+              "GATO"
+            ]
+          },
+          "breed": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "ageLabel": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "weightKg": {
+            "type": "number",
+            "maximum": 150,
+            "minimum": 0.01
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "avatarUrl": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "vaccineStatus": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "severeDermatitisHistory": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "size",
+          "species",
+          "weightKg"
+        ]
+      },
+      "Pet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "CAO",
+              "GATO"
+            ]
+          },
+          "breed": {
+            "type": "string"
+          },
+          "ageLabel": {
+            "type": "string"
+          },
+          "weightKg": {
+            "type": "number"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "avatarUrl": {
+            "type": "string"
+          },
+          "vaccineStatus": {
+            "type": "string"
+          },
+          "severeDermatitisHistory": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ShopInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "neighborhood": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "maximum": 90,
+            "minimum": -90
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "maximum": 180,
+            "minimum": -180
+          },
+          "serviceRadiusKm": {
+            "type": "number",
+            "format": "double",
+            "maximum": 100,
+            "minimum": 0.1
+          },
+          "deliveryPreparationMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 240,
+            "minimum": 0
+          },
+          "deliveryFee": {
+            "type": "number",
+            "maximum": 1000,
+            "minimum": 0
+          },
+          "taxiDogFee": {
+            "type": "number",
+            "maximum": 1000,
+            "minimum": 0
+          },
+          "timeZone": {
+            "type": "string",
+            "minLength": 1
+          },
+          "logoUrl": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "bannerUrl": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "address",
+          "deliveryFee",
+          "name",
+          "taxiDogFee",
+          "timeZone"
+        ]
+      },
+      "Shop": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "neighborhood": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "serviceRadiusKm": {
+            "type": "number",
+            "format": "double"
+          },
+          "deliveryPreparationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "deliveryFee": {
+            "type": "number"
+          },
+          "taxiDogFee": {
+            "type": "number"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "logoUrl": {
+            "type": "string"
+          },
+          "bannerUrl": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "ATIVA",
+              "SUSPENSA"
+            ]
+          },
+          "advancePayout": {
+            "type": "boolean"
+          },
+          "sponsored": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ServiceInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 480,
+            "minimum": 15
+          },
+          "smallPrice": {
+            "type": "number",
+            "maximum": 10000,
+            "minimum": 0.01
+          },
+          "mediumPrice": {
+            "type": "number",
+            "maximum": 10000,
+            "minimum": 0.01
+          },
+          "largePrice": {
+            "type": "number",
+            "maximum": 10000,
+            "minimum": 0.01
+          },
+          "therapeutic": {
+            "type": "boolean"
+          },
+          "imageUrl": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "category",
+          "largePrice",
+          "mediumPrice",
+          "name",
+          "smallPrice"
+        ]
+      },
+      "GroomingService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "smallPrice": {
+            "type": "number"
+          },
+          "mediumPrice": {
+            "type": "number"
+          },
+          "largePrice": {
+            "type": "number"
+          },
+          "therapeutic": {
+            "type": "boolean"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "price": {
+            "type": "number",
+            "maximum": 100000,
+            "minimum": 0.01
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 1000000,
+            "minimum": 0
+          },
+          "unitLabel": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "imageUrl": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "category",
+          "name",
+          "price"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitLabel": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PayoutInput": {
+        "type": "object",
+        "properties": {
+          "advancePayout": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BayInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "size"
+        ]
+      },
+      "Bay": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "petId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "taxiDog": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "petId",
+          "serviceId",
+          "startsAt"
+        ]
+      },
+      "Checkout": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            },
+            "maxItems": 100,
+            "minItems": 0
+          },
+          "booking": {
+            "$ref": "#/components/schemas/Booking"
+          },
+          "fulfillmentMode": {
+            "type": "string",
+            "enum": [
+              "ENTREGA_LOCAL",
+              "RETIRADA_HIBRIDA"
+            ]
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "maximum": 90,
+            "minimum": -90
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "maximum": 180,
+            "minimum": -180
+          },
+          "payment": {
+            "$ref": "#/components/schemas/PaymentInput"
+          }
+        },
+        "required": [
+          "fulfillmentMode",
+          "payment",
+          "products",
+          "storeId"
+        ]
+      },
+      "Line": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "productId"
+        ]
+      },
+      "PaymentInput": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CARTAO"
+            ]
+          },
+          "cardToken": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "paymentMethodId": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "issuerId": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 0
+          },
+          "installments": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 12,
+            "minimum": 1
+          },
+          "cpf": {
+            "type": "string",
+            "pattern": "[0-9]{11}"
+          }
+        },
+        "required": [
+          "method"
+        ]
+      },
+      "Purchase": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tutorId": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "slaDeadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "acceptedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE_CONFIRMACAO",
+              "ACEITO_EM_PREPARO",
+              "EM_ATENDIMENTO_ESTETICA",
+              "PRONTO_RETIRADA",
+              "SAIU_PARA_ENTREGA",
+              "CONCLUIDO",
+              "RECUSADO_OU_TIMEOUT",
+              "CANCELADO",
+              "NO_SHOW"
+            ]
+          },
+          "fulfillmentMode": {
+            "type": "string",
+            "enum": [
+              "ENTREGA_LOCAL",
+              "RETIRADA_HIBRIDA"
+            ]
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CARTAO"
+            ]
+          },
+          "deliveryAddress": {
+            "type": "string"
+          },
+          "subtotal": {
+            "type": "number"
+          },
+          "deliveryFee": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "platformTakeRateAmount": {
+            "type": "number"
+          },
+          "merchantNetAmount": {
+            "type": "number"
+          },
+          "noShowFee": {
+            "type": "number"
+          },
+          "rejectionReason": {
+            "type": "string"
+          },
+          "resourcesReleased": {
+            "type": "boolean"
+          },
+          "petId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "therapeuticService": {
+            "type": "boolean"
+          },
+          "petName": {
+            "type": "string"
+          },
+          "petSize": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "bayId": {
+            "type": "string"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "scheduledEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "servicePrice": {
+            "type": "number"
+          },
+          "taxiDogFee": {
+            "type": "number"
+          },
+          "taxiDog": {
+            "type": "boolean"
+          },
+          "bayReleased": {
+            "type": "boolean"
+          },
+          "checkedInAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "triageDone": {
+            "type": "boolean"
+          },
+          "sanitaryRequired": {
+            "type": "boolean"
+          },
+          "groomingStage": {
+            "type": "string",
+            "enum": [
+              "NAO_INICIADO",
+              "TRIAGEM",
+              "BANHO",
+              "TOSA",
+              "FINALIZADO"
+            ]
+          }
+        }
+      },
+      "ReviewInput": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Reason": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "AddOnDecision": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "PENDENTE_TUTOR",
+              "AGUARDANDO_PAGAMENTO",
+              "APROVADO",
+              "RECUSADO"
+            ]
+          },
+          "payment": {
+            "$ref": "#/components/schemas/PaymentInput"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "AddOn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mandatorySanitary": {
+            "type": "boolean"
+          },
+          "stockReserved": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE_TUTOR",
+              "AGUARDANDO_PAGAMENTO",
+              "APROVADO",
+              "RECUSADO"
+            ]
+          }
+        }
+      },
+      "WindowInput": {
+        "type": "object",
+        "properties": {
+          "bayId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "bayId",
+          "endsAt",
+          "startsAt"
+        ]
+      },
+      "BayWindow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "bayId": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Triage": {
+        "type": "object",
+        "properties": {
+          "suspectedEctoparasites": {
+            "type": "boolean"
+          },
+          "severeDermatitis": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StageInput": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": [
+              "NAO_INICIADO",
+              "TRIAGEM",
+              "BANHO",
+              "TOSA",
+              "FINALIZADO"
+            ]
+          }
+        },
+        "required": [
+          "stage"
+        ]
+      },
+      "NoteInput": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "note"
+        ]
+      },
+      "BehaviorNote": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "petId": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AddOnInput": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "serviceId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 1
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          },
+          "mandatorySanitary": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "OAuthInput": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 0
+          },
+          "state": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "code",
+          "state"
+        ]
+      },
+      "Register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 0
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 10
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "TUTOR",
+              "LOJISTA",
+              "ADMIN"
+            ]
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "email",
+          "name",
+          "password",
+          "role"
+        ]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "TUTOR",
+              "LOJISTA",
+              "ADMIN"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthResult": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Account"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ReconcileInput": {
+        "type": "object",
+        "properties": {
+          "providerId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "[A-Za-z0-9-]{1,100}"
+          }
+        },
+        "required": [
+          "providerId"
+        ]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "addonId": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "PIX",
+              "CARTAO"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CRIADO",
+              "PENDENTE",
+              "AUTORIZADO",
+              "PAGO",
+              "RECUSADO",
+              "CANCELADO",
+              "ESTORNADO",
+              "PARCIALMENTE_ESTORNADO",
+              "CONTESTADO"
+            ]
+          },
+          "amount": {
+            "type": "number"
+          },
+          "platformFee": {
+            "type": "number"
+          },
+          "refundedAmount": {
+            "type": "number"
+          },
+          "desiredRefund": {
+            "type": "number"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "qrCode": {
+            "type": "string"
+          },
+          "qrCodeBase64": {
+            "type": "string"
+          },
+          "providerReleaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "task": {
+            "type": "string"
+          },
+          "attempts": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "retryAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "captureRequested": {
+            "type": "boolean"
+          },
+          "cancelRequested": {
+            "type": "boolean"
+          },
+          "localSimulation": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StoreResult": {
+        "type": "object",
+        "properties": {
+          "store": {
+            "$ref": "#/components/schemas/Shop"
+          },
+          "distanceKm": {
+            "type": "number",
+            "format": "double"
+          },
+          "estimatedTravelMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estimatedDeliveryMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          },
+          "reviewCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Slot": {
+        "type": "object",
+        "properties": {
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "PEQUENO",
+              "MEDIO",
+              "GRANDE"
+            ]
+          },
+          "availableBays": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Detail": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Purchase"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "addons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddOn"
+            }
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "behavioralNotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BehaviorNote"
+            }
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitPrice": {
+            "type": "number"
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recipientId": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SseEmitter": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Receivable": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "gross": {
+            "type": "number"
+          },
+          "platformFee": {
+            "type": "number"
+          },
+          "merchantAmount": {
+            "type": "number"
+          },
+          "advanceFee": {
+            "type": "number"
+          },
+          "expectedNet": {
+            "type": "number"
+          },
+          "expectedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "mercadoPagoSignature": {
+        "type": "apiKey",
+        "description": "HMAC Mercado Pago. Também exige x-request-id e data.id; não usa sessão Bearer.",
+        "name": "x-signature",
+        "in": "header"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

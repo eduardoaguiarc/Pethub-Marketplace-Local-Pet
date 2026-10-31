@@ -89,4 +89,8 @@ assumptions:
 # differs, and say so when the tree is dirty — a sha alone reads as a clean
 # checkout. A claim carried over from an older fingerprint is one nothing has
 # re-checked since.
-fingerprints: []
+fingerprints:
+  - id: implementation-2026-10-31
+    date: '2026-10-31'
+    commit: 5ff1c0c plus final validation and OpenAPI corrections
+    cli: Postman CLI 1.83.0

@@ -36,5 +36,8 @@ class HttpSecurityTest {
         String body=mvc.perform(get("/v3/api-docs")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         assertThat(json.readTree(body).path("paths").has("/api/v1/orders")).isTrue();
         assertThat(json.readTree(body).path("paths").has("/api/v1/merchant/orders/{id}/triage")).isTrue();
+        assertThat(json.readTree(body).path("paths").path("/api/v1/auth/register").path("post").path("security").isEmpty()).isTrue();
+        assertThat(json.readTree(body).path("paths").path("/api/v1/pets").path("post").path("security").get(0).has("bearerAuth")).isTrue();
+        assertThat(json.readTree(body).path("paths").path("/api/v1/webhooks/mercadopago").path("post").path("security").get(0).has("mercadoPagoSignature")).isTrue();
     }
 }

@@ -22,6 +22,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Configuration
 public class SecurityConfig {
     @Bean PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(12); }
+    @Bean org.springframework.security.core.userdetails.UserDetailsService disableDefaultUser() {
+        return username -> { throw new org.springframework.security.core.userdetails.UsernameNotFoundException("Use a autenticação Bearer da API"); };
+    }
     @Bean SecurityFilterChain security(HttpSecurity http, AuthService auth, @Value("${pethub.cors-origins}") String origins) throws Exception {
         var cors=new CorsConfiguration(); cors.setAllowedOrigins(Arrays.asList(origins.split(",")));
         cors.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));

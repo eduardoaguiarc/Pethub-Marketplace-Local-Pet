@@ -2,6 +2,8 @@
 
 Backend dos processos PRC-01 (pedido/agendamento), PRC-02 (estética/comanda) e PRC-03 (onboarding/catálogo) descritos nas duas entregas. Java 21+, Spring Boot 4.0.9, Spring Security, JPA/Hibernate, Flyway, H2 local e PostgreSQL para implantação.
 
+Veja a [matriz de requisitos](docs/rastreabilidade.md), o [contrato e decisões](docs/contrato.md) e os [resultados de validação](docs/validacao.md).
+
 ## Executar
 
 No PowerShell, a partir desta pasta:
@@ -132,6 +134,8 @@ Flyway aplica `src/main/resources/db/migration`. Hibernate apenas valida o esque
 - `../postman/specs/pethub.openapi.json`: exportação do `/v3/api-docs`; o código anotado é a origem deste contrato.
 - `../postman/collections/pethub-smoke`: testes HTTP reutilizáveis contra o backend em execução.
 - `../postman/mocks/mercadopago`: mock derivado da documentação pública; não é mock oficial do provedor. Busca por workspace proprietário foi dispensada porque não havia sessão Postman de equipe autenticada.
+
+Depois de alterar endpoints, atualize a exportação com a API em execução: `python scripts/export-openapi.py`. Para outra porta, use `--url http://localhost:8081/v3/api-docs`. O exportador preserva UTF-8 e o contrato usa servidor relativo para funcionar em qualquer ambiente.
 
 Na raiz do repositório, inicie a simulação:
 
