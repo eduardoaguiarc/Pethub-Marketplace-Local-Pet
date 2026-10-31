@@ -4,6 +4,27 @@ Backend dos processos PRC-01 (pedido/agendamento), PRC-02 (estética/comanda) e 
 
 Veja a [matriz de requisitos](docs/rastreabilidade.md), o [contrato e decisões](docs/contrato.md) e os [resultados de validação](docs/validacao.md).
 
+## Organização dos pacotes
+
+O pacote raiz `br.com.pethub` contém apenas `PetHubApplication`, mantendo a descoberta automática de componentes e entidades nos subpacotes.
+
+| Pacote | Responsabilidade |
+| --- | --- |
+| `bootstrap` | Criação inicial da conta administrativa. |
+| `config` | Configurações Spring, segurança HTTP, OpenAPI e validação do ambiente de produção. |
+| `controller` | Endpoints REST e conexão SSE. |
+| `domain` | Entidades persistidas e enums, agrupados em `Domain`. |
+| `dto` | Objetos de entrada e validação das requisições, agrupados em `Requests`. |
+| `exception` | Exceções de negócio e tratamento padronizado de erros HTTP. |
+| `repository` | Acesso ao banco, consultas e locks com JPA. |
+| `security` | Autenticação, sessões e criptografia. |
+| `service` | Regras de catálogo, pets, pedidos e notificações. |
+| `payment` | Contrato do gateway, simulador local, intenções e worker de pagamento. |
+| `integration.mercadopago` | Adaptador HTTP, conexão OAuth de vendedores e webhooks do Mercado Pago. |
+| `scheduler` | Tarefas periódicas de expiração de pedidos e processamento de pagamentos. |
+
+Os testes ficam em `src/test/java/br/com/pethub/integration`, pois exercitam os componentes com o contexto Spring e banco de dados. A separação de pacotes não altera as URLs, os payloads HTTP nem o esquema do banco.
+
 ## Executar
 
 No PowerShell, a partir desta pasta:

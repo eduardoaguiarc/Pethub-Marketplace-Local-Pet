@@ -15,6 +15,14 @@ Backend executado com Java 25, Maven 3.9.11 e Spring Boot 4.0.9. Código compila
 
 ## O que foi exercitado
 
+### Revalidação após organização em pacotes
+
+Em 31/10/2026, o backend foi recompilado do zero com `clean verify`, após mover as classes para pacotes por responsabilidade e os testes para `br.com.pethub.integration`. Os **27 testes passaram, sem falhas, erros ou testes ignorados**, incluindo os seis cenários contra a simulação HTTP Postman do Mercado Pago. O JAR executável foi gerado novamente. Os logs da simulação confirmaram chamadas de pagamentos e OAuth, incluindo respostas 503 injetadas e recuperação idempotente. Essa execução preserva o escopo local/simulado da validação e não representa homologação com o provedor real.
+
+O novo JAR também iniciou com o banco local persistente existente: o health check retornou `UP`, a migração permaneceu na versão 1 e o documento OpenAPI exportado foi comparado integralmente com o contrato versionado, sem diferenças nos 54 caminhos ou demais definições.
+
+### Cenários cobertos
+
 - Estoque e baia disputados por duas transações concorrentes; somente uma reserva aceita.
 - Antecedência de 2h, sobreposição por duração, horários adjacentes e extensão de serviço adicional.
 - SLA no instante limite de 15min, restauração de estoque e liberação de agenda sem duplicação.

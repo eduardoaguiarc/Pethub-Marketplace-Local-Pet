@@ -60,21 +60,21 @@ assumptions:
     claim: Payments API marketplace integration uses seller OAuth access tokens and application_fee for the marketplace commission.
     reason: Provider documentation specifies this request contract; simulation validates the caller sends the expected fee and exercises OAuth exchange.
     verification: On 2026-10-31 the six MercadoPagoSimulationTest scenarios passed against a Postman HTTP simulation; no real seller account was used.
-    source: https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/how-tos/integrate-marketplace; backend/src/test/java/br/com/pethub/MercadoPagoSimulationTest.java
+    source: https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/how-tos/integrate-marketplace; backend/src/test/java/br/com/pethub/integration/MercadoPagoSimulationTest.java
     updated_at: '2026-10-31'
   - id: idempotent-create-retry
     status: supported
     claim: The caller reuses the same idempotency key and unchanged financial request after a simulated lost response following creation.
     reason: The mock records a charge then returns 503; the second real HTTP request reuses the key and recovers one charge in the modeled provider state.
     verification: ambiguousCreateFailureReusesTheSameKeyAndNeverDoubleCharges and cancellingAfterAmbiguousCreateStillFindsAndRefundsOriginalCharge passed on 2026-10-31. This establishes caller behavior, not the real provider retention window.
-    source: backend/src/test/java/br/com/pethub/MercadoPagoSimulationTest.java; postman/mocks/mercadopago/default.js
+    source: backend/src/test/java/br/com/pethub/integration/MercadoPagoSimulationTest.java; postman/mocks/mercadopago/default.js
     updated_at: '2026-10-31'
   - id: idempotency-retention-window
     status: unknown
     claim: The real provider retains the integration's idempotency records throughout every potential recovery interval.
     reason: A passing local simulation cannot establish production retention policy. The worker conservatively stops blind create retries after 23 hours and requires manual reconciliation.
     verification: No real account or long-duration production experiment was available; merchant/provider homologation remains required.
-    source: backend/src/main/java/br/com/pethub/PaymentWorker.java
+    source: backend/src/main/java/br/com/pethub/payment/PaymentWorker.java
     updated_at: '2026-10-31'
   - id: financial-release-and-fees
     status: unknown
@@ -90,6 +90,10 @@ assumptions:
 # checkout. A claim carried over from an older fingerprint is one nothing has
 # re-checked since.
 fingerprints:
+  - id: package-refactor-2026-10-31
+    date: '2026-10-31'
+    commit: 928ab33 plus uncommitted Java package reorganization; clean verify passed all 27 tests, including all six simulation scenarios. Local HTTP logs confirmed payment, OAuth and injected 503 recovery requests. No real provider calls.
+    cli: Postman CLI 1.83.0
   - id: implementation-2026-10-31
     date: '2026-10-31'
     commit: 5ff1c0c plus final validation and OpenAPI corrections

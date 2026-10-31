@@ -1,162 +1,240 @@
-# PetHub — backend Java + Spring
+<div align="center">
 
-Backend dos processos PRC-01 (pedido/agendamento), PRC-02 (estética/comanda) e PRC-03 (onboarding/catálogo) descritos nas duas entregas. Java 21+, Spring Boot 4.0.9, Spring Security, JPA/Hibernate, Flyway, H2 local e PostgreSQL para implantação.
+# 🐾 PetHub
 
-Veja a [matriz de requisitos](docs/rastreabilidade.md), o [contrato e decisões](docs/contrato.md) e os [resultados de validação](docs/validacao.md).
+### Marketplace local para conectar tutores, pet shops e serviços de banho e tosa
 
-## Executar
+Produtos e cuidados para o pet em uma mesma jornada: descoberta, compra, agendamento e retirada.
 
-No PowerShell, a partir desta pasta:
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat-square)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.9-6DB33F?style=flat-square&logo=springboot&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Em_desenvolvimento-B65744?style=flat-square)
 
-```powershell
-.\mvnw.cmd test
-.\mvnw.cmd spring-boot:run
+[O projeto](#o-projeto) · [Interface](#interface) · [Engenharia](#decisões-de-engenharia) · [Executar](#como-executar) · [Testes](#testes-e-evidências)
+
+</div>
+
+## O projeto
+
+Encontrar um produto, confirmar o estoque e agendar um banho costuma exigir contatos separados com o estabelecimento. O **PetHub** reúne essas etapas em um marketplace local, no qual o tutor pode comprar produtos e reservar serviços na mesma comanda, enquanto o lojista administra catálogo, capacidade de atendimento e execução dos pedidos.
+
+O projeto nasceu de um trabalho acadêmico de concepção de negócio e modelagem de processos BPMN. A implementação transforma esses processos em regras executáveis, com foco em **backend Java, consistência de dados, segurança e integração de pagamentos**.
+
+### Para conhecer o projeto em poucos minutos
+
+- **Problema de negócio:** coordenar estoque, agenda e pagamento em pedidos que combinam produtos e serviços.
+- **Engenharia aplicada:** transações, locks pessimistas, idempotência, controle de acesso e recuperação de falhas de comunicação.
+- **Evidências:** 27 testes Java executados, além de uma coleção Postman com 19 requisições e 31 asserções. Os resultados e seus limites estão [documentados](backend/docs/validacao.md).
+- **Rastreabilidade:** [matriz que relaciona os requisitos à implementação e à validação](backend/docs/rastreabilidade.md).
+
+> **Estado atual:** o backend pode ser executado e testado localmente. O frontend é um protótipo navegável com estado e dados simulados, cuja integração com a API ainda está pendente. O adaptador Mercado Pago foi exercitado contra uma simulação HTTP; a homologação com o provedor permanece como próxima etapa.
+
+## Interface
+
+O conceito visual prioriza o uso no celular, com navegação entre descoberta de lojas, pedidos e perfil do pet.
+
+<table>
+  <tr>
+    <th>Início</th>
+    <th>Pedidos</th>
+    <th>Perfil</th>
+  </tr>
+  <tr>
+    <td><img src="prototipo_aplicativo_pethub/tela_inicio.jpg" width="240" alt="Protótipo da tela inicial do PetHub, com seleção de pet, categorias e ofertas"></td>
+    <td><img src="prototipo_aplicativo_pethub/tela_pedido.jpg" width="240" alt="Protótipo da tela de pedidos do PetHub"></td>
+    <td><img src="prototipo_aplicativo_pethub/tela_perfil.jpg" width="240" alt="Protótipo da tela de perfil do PetHub"></td>
+  </tr>
+</table>
+
+*Imagens dos protótipos visuais. Elas representam a proposta de interface; não comprovam integração das telas com o backend.*
+
+## Funcionalidades do backend
+
+| Perfil | Recursos |
+| --- | --- |
+| **Tutor** | Cadastro e autenticação, gestão de pets, consulta de lojas por proximidade, compra de produtos, agendamento, acompanhamento de pedidos, aprovação de adicionais e avaliação após conclusão. |
+| **Lojista** | Cadastro da loja, gestão de produtos e serviços, estoque, baias por porte, horários de atendimento, aceite e recusa de pedidos, triagem, execução do banho/tosa e histórico comportamental. |
+| **Administrador** | Credenciamento de lojas, consulta de pagamentos com problemas e conciliação de transações com o provedor. |
+
+### Regras que orientam a operação
+
+| Situação | Comportamento implementado |
+| --- | --- |
+| Agendamento de estética | Exige pelo menos **2 horas de antecedência** e capacidade disponível durante toda a duração do serviço. |
+| Recebimento de pedido | O lojista tem **15 minutos** para aceitar ou recusar. O vencimento cancela o pedido e libera as reservas. |
+| Compra de produtos com banho/tosa | A comanda mantém os produtos reservados para retirada junto com o pet, sem frete de produtos. |
+| Ausência do tutor | Após a tolerância de **15 minutos**, o no-show cancela a comanda, libera estoque/agenda e retém **20% somente do serviço**. |
+| Serviço adicional | Depende de autorização do tutor, disponibilidade e confirmação do pagamento antes de ser aprovado. |
+| Triagem sanitária | Dermatite severa no histórico ou suspeita de ectoparasitas impede o banho comum até atender às condições do serviço terapêutico. |
+| Comissão do marketplace | Calcula **10% para a plataforma** e **90% para o lojista**, antes das taxas do provedor. |
+| Avaliação | Permite uma avaliação de **1 a 5 estrelas**, por pedido, somente após a conclusão. |
+
+As escolhas feitas para resolver lacunas dos requisitos, incluindo cancelamento de pedidos mistos e previsões financeiras, estão no [contrato e decisões de implementação](backend/docs/contrato.md).
+
+## Decisões de engenharia
+
+| Desafio | Solução adotada | Motivo e limite |
+| --- | --- | --- |
+| Dois clientes disputando o último produto ou horário | Transações e lock pessimista por loja. | Protege estoque e agenda de reservas conflitantes. A escolha serializa as escritas de cada loja, um custo explícito para este MVP. |
+| Checkout enviado novamente após uma falha de rede | Chave de idempotência e verificação do conteúdo da requisição. | A repetição do mesmo pedido recupera o resultado; reutilizar a chave com outro conteúdo gera conflito. |
+| Provedor recebe a cobrança, mas a resposta se perde | Intenção de pagamento persistida, worker com retentativas e chaves idempotentes no gateway. | Permite recuperar o resultado sem criar outra cobrança. Casos ambíguos prolongados seguem para conciliação manual. |
+| Preços e comissão sujeitos a manipulação ou arredondamento | Valores calculados no servidor com `BigDecimal`. | O cliente informa IDs e quantidades; o backend consulta os preços e mantém consistência entre cobranças e comissão. |
+| Acesso indevido a pets, lojas e pedidos | Spring Security, perfis e validação de propriedade dos recursos. | Restringe ações por papel e pelo vínculo do usuário com o recurso. Não existe cadastro público de administrador. |
+| Credenciais e notificações de pagamento | OAuth com PKCE, tokens do vendedor cifrados com AES-256-GCM e webhooks com HMAC. | Protege credenciais persistidas e valida a origem do evento; o status financeiro é consultado no provedor. |
+| Perda de notificações durante desconexão | Eventos persistidos e Server-Sent Events (SSE), com cursor e replay. | O consumidor pode recuperar eventos ao reconectar. A ligação desse fluxo às telas ainda está pendente. |
+| Evolução do banco entre versões | Migrações Flyway e validação de esquema pelo Hibernate. | Mantém as alterações de estrutura versionadas junto ao código. |
+
+**Autenticação:** senhas com BCrypt e sessões Bearer com tokens opacos, revogáveis e com expiração. O banco armazena o hash do token de sessão. Dados brutos de cartão, como número e CVV, não fazem parte do contrato do backend.
+
+### Arquitetura
+
+O backend é uma aplicação Spring Boot única, organizada em pacotes por responsabilidade: `controller`, `service`, `domain`, `dto`, `repository`, `security`, `config`, `exception`, `bootstrap`, `scheduler`, `payment` e `integration.mercadopago`. Veja o [mapa de pacotes](backend/README.md#organização-dos-pacotes) para localizar cada componente.
+
+```mermaid
+flowchart TD
+    UI["Frontend React · protótipo"] --> LOCAL["Estado e dados locais"]
+    UI -. "Integração prevista: REST + SSE" .-> API["API Spring Boot"]
+    SW["Swagger / coleção Postman"] --> API
+    API --> SEC["Segurança e validação"]
+    SEC --> SVC["Serviços de negócio"]
+    SVC --> DB["JPA + Flyway · H2 / PostgreSQL"]
+    SVC --> EVENTS["Notificações persistidas + SSE"]
+    SVC --> PAY["Intenções persistidas de pagamento"]
+    PAY --> WORKER["Worker de pagamentos"]
+    WORKER --> GATEWAY["PaymentGateway"]
+    GATEWAY --> SIM["Simulador local"]
+    GATEWAY --> MP["Adaptador Mercado Pago"]
+    MP --> MOCK["Simulação HTTP Postman nos testes"]
 ```
 
-Linux/macOS: `./mvnw test` e `./mvnw spring-boot:run`. O Wrapper baixa o Maven no primeiro uso. O JDK deve estar no PATH. Java 25 também foi usado na validação deste projeto.
+O perfil local utiliza H2 persistente e pagamentos simulados. PostgreSQL, Docker e o adaptador Mercado Pago estão configurados no projeto; a validação registrada foi realizada com H2 e simulação do provedor.
 
-- API: http://localhost:8080/api/v1
-- Swagger: http://localhost:8080/swagger-ui.html
-- OpenAPI: http://localhost:8080/v3/api-docs
-- Health: http://localhost:8080/actuator/health
-- Dados locais persistem em `backend/data/`.
+## Tecnologias
 
-O perfil padrão `local` simula pagamentos de forma explícita (`localSimulation: true`). Nenhum dinheiro é movimentado. PIX local é aprovado automaticamente; cartão local é autorizado e capturado após o aceite. O perfil `prod` exige Mercado Pago e recusa configuração incompleta.
+| Camada | Tecnologias |
+| --- | --- |
+| Backend | Java 21, Spring Boot 4.0.9, Spring MVC, Spring Security, Bean Validation |
+| Persistência | JPA/Hibernate, Flyway, H2 e configuração para PostgreSQL |
+| Frontend | React 19, TypeScript 5.7, Vite 6, Tailwind CSS 4, React Router |
+| Integração | REST, SSE, OAuth, adaptador Mercado Pago para PIX/cartão e comissão via `application_fee` |
+| Testes e contrato | JUnit, Spring Boot Test, Spring Security Test, OpenAPI 3.1, Postman |
+| Build e execução | Maven Wrapper, npm, Dockerfile e Docker Compose |
 
-## Administrador e credenciamento
+## Como executar
 
-Antes da primeira execução, defina `PETHUB_ADMIN_EMAIL` e `PETHUB_ADMIN_PASSWORD` no ambiente. A senha precisa ter no mínimo 12 caracteres e no máximo 72 bytes UTF-8. O bootstrap cria a conta administrativa se ela não existir; não altera senhas existentes nem promove contas públicas. Remova essas variáveis depois da criação.
+### Pré-requisitos
 
-1. Cadastre o lojista em `POST /auth/register` com `role: "LOJISTA"`.
-2. Com o token do lojista, crie a loja em `POST /merchant/store`.
-3. O administrador entra por `/auth/login`, consulta `/admin/stores` e aprova com `POST /admin/stores/{id}/approve`.
-4. O lojista cadastra produtos, serviços, baias e janelas de funcionamento pelos endpoints `/merchant/*`.
-5. Tutores se cadastram com `role: "TUTOR"`, cadastram pets e fazem pedidos.
+- **JDK 21 ou superior** no `PATH`. A validação registrada utilizou Java 25, compilando para Java 21.
+- **Node.js 22+ e npm** para o frontend.
+- **Git** para clonar o projeto.
 
-Não há credenciais administrativas fixas nem endpoint público para conceder esse perfil. Uma conta de lojista possui uma loja neste MVP.
+Não é necessário instalar Maven separadamente: o repositório inclui o Wrapper. O primeiro uso precisa de conexão à internet para baixar as dependências.
 
-## Autenticação e contrato
-
-```http
-POST /api/v1/auth/register
-Content-Type: application/json
-
-{"name":"Maria","email":"maria@example.com","password":"uma-senha-forte","role":"TUTOR"}
+```bash
+git clone https://github.com/eduardoaguiarc/Pethub-Marketplace-Local-Pet.git
+cd Pethub-Marketplace-Local-Pet
 ```
 
-Use `Authorization: Bearer <accessToken>` nas operações privadas. A sessão expira em 12h, é armazenada como hash SHA-256 e pode ser revogada com `POST /auth/logout`. Senhas usam BCrypt. Listagens usam `page=0&size=20`, com limite de 100. A resposta dessas listagens é um array, sem total global.
+### 1. Iniciar o backend
 
-Dinheiro: números decimais em BRL com até duas casas. IDs: UUIDs. Datas: ISO-8601 com offset, por exemplo `2026-11-01T15:00:00-03:00`. Portes: `PEQUENO`, `MEDIO`, `GRANDE`. Espécies: `CAO`, `GATO`. Horários são persistidos em UTC e a agenda usa o fuso IANA da loja.
-
-Erros usam `application/problem+json`, com `status`, `detail` e `code`. `400`: formato/validação; `401`: sessão ou assinatura inválida; `403`: perfil/propriedade; `404`: recurso ausente; `409`: conflito de negócio/concorrência; `429`: limitação de login/cadastro.
-
-Checkout:
-
-```http
-POST /api/v1/orders
-Authorization: Bearer <token-do-tutor>
-Idempotency-Key: compra-uuid-unico
-Content-Type: application/json
-
-{
-  "storeId": "<id-da-loja>",
-  "products": [{"productId":"<id-do-produto>","quantity":2}],
-  "booking": {
-    "serviceId":"<id-do-servico>","petId":"<id-do-pet>",
-    "startsAt":"2026-11-01T15:00:00-03:00","taxiDog":false
-  },
-  "fulfillmentMode":"RETIRADA_HIBRIDA",
-  "payment":{"method":"PIX","installments":1}
-}
-```
-
-Substitua a data por uma janela cadastrada, com pelo menos 2h de antecedência. Produtos e serviço são opcionais individualmente; a comanda não pode ficar vazia. Apenas IDs e quantidades são aceitos para precificação; o servidor consulta preços, estoque, porte do pet, frete e duração. Produtos de lojas diferentes não podem compartilhar comanda. Repetir a chave e o mesmo JSON devolve o pedido original; reutilizá-la com outro conteúdo retorna `409`.
-
-Para entrega de produtos sem estética, envie `fulfillmentMode: "ENTREGA_LOCAL"`, `deliveryAddress`, `latitude` e `longitude`; o servidor valida o raio. Pedidos com estética usam retirada e não cobram frete de produtos. `taxiDog` é um adicional de transporte com preço definido pela loja; não implica roteirização de veículos.
-
-O pedido é persistido antes do contato com o gateway. Consulte `/orders/{id}/payments` para acompanhar o resultado, QR PIX e eventuais tentativas. O lojista só consegue aceitar depois de autorização de cartão ou pagamento de PIX. Estética, expedição e conclusão exigem valores efetivamente confirmados.
-
-## Fluxo operacional
-
-- Aceitar ou recusar em até 15 minutos. Recusa exige justificativa. No limite de 15 minutos o aceite cancela por timeout; o job também verifica a cada 5 segundos e recupera pedidos vencidos após reinício.
-- Cartão: autorizar no checkout e capturar depois do aceite. PIX: aguardar confirmação; não existe pré-autorização bancária de PIX.
-- Estética: check-in, triagem, banho, tosa opcional, finalização, pronto para retirada e conclusão. Check-in abre 15 minutos antes; execução não começa antes do horário reservado.
-- Adicionais de produto/serviço exigem decisão do tutor. Aprovação reserva estoque/duração e cria uma cobrança separada. Só fica `APROVADO` após pagamento; repetir a decisão não duplica valor ou cobrança.
-- No-show: após o horário +15 minutos, cancela a comanda, libera baia/estoque e devolve tudo menos 20% do preço original do serviço. Essa política para produtos do pedido misto resolve uma lacuna dos PDFs e está documentada no contrato.
-- Histórico de dermatite severa ou suspeita de ectoparasitas bloqueia o banho comum até aprovação e pagamento do terapêutico. Um serviço base já terapêutico também satisfaz a regra. Recusa mantém o bloqueio; o lojista pode cancelar sanitariamente com devolução integral.
-- Produtos da comanda híbrida permanecem reservados até a retirada conjunta. Avaliação de 1–5 só é aceita após conclusão, uma por pedido. Observações comportamentais ficam no histórico do pet.
-
-## Mercado Pago
-
-Configure as variáveis do `.env.example` no ambiente do servidor. Spring não lê `.env` automaticamente; Docker Compose lê esse arquivo para interpolação.
-
-Para habilitar o adaptador real localmente: `PAYMENT_MODE=mercadopago` e uma `PETHUB_ENCRYPTION_KEY` de 32 bytes aleatórios em Base64. Configure também `MP_CLIENT_ID`, `MP_CLIENT_SECRET`, `MP_REDIRECT_URI`, `MP_WEBHOOK_URL` e `MP_WEBHOOK_SECRET`.
-
-1. Lojista chama `POST /merchant/mercadopago/connect` e abre `authorizationUrl`.
-2. A tela em `MP_REDIRECT_URI` recebe `code` e `state` e envia ambos ao endpoint autenticado `POST /merchant/mercadopago/callback`. Há PKCE, estado de uso único e validade de 10 minutos.
-3. Tokens do vendedor ficam cifrados com AES-256-GCM; a renovação usa o refresh token. Faça backup seguro da chave: trocar a chave sem recriptografar invalida as credenciais armazenadas.
-4. O frontend obtém a chave pública em `GET /stores/{id}/payment-config` e tokeniza cartão com o SDK do Mercado Pago. Envie `cardToken`, `paymentMethodId`, `issuerId` quando necessário, `installments` e `cpf` opcional em `payment`. Nunca envie PAN ou CVV ao backend.
-5. Cadastre o webhook HTTPS `/api/v1/webhooks/mercadopago` para eventos de pagamento. A assinatura HMAC usa `data.id`, `x-request-id` e `ts`, com tolerância de 5 minutos. O corpo do evento não decide valores/status: o worker consulta o provedor autenticado. Repetições são seguras.
-
-O adaptador usa o access token OAuth de cada vendedor e `application_fee` para a comissão. Criação, captura, cancelamento e reembolso usam chaves idempotentes. Falha de rede mantém intenção persistida com retentativa; não há fallback para pagamento fictício. Resultado desconhecido de criação por mais de 23h exige conciliação manual, evitando repetição cega além de uma janela conservadora de idempotência.
-
-O administrador consulta erros em `GET /admin/payments`. Após localizar a transação no painel do provedor, pode enviar `POST /admin/payments/{id}/reconcile` com `{"providerId":"..."}`. O servidor consulta o Mercado Pago e verifica referência externa e valor antes de associar a transação e retomar captura/estorno. Uma associação incompatível é desfeita.
-
-**Limites da integração:** homologação em conta de teste/produção não foi realizada sem as credenciais do usuário. O contrato comercial deve permitir marketplace, PIX, pré-autorização e split. Taxas do Mercado Pago reduzem o líquido bancário do vendedor: `merchantNetAmount` representa os 90% antes dessas taxas. A previsão interna D+7/D+1 não comanda a agenda bancária do provedor. A API registra `providerReleaseDate` informado por ele, sem afirmar que houve transferência. Antecipação usa taxa parametrizada (`ADVANCE_FEE_RATE`, padrão assumido de 2%) apenas na previsão contábil; a contratação e execução financeira dependem de homologação comercial. Não há cobrança implementada de planos patrocinados, que a Entrega 1 apresenta como extensão do modelo de negócio.
-
-Fontes do contrato externo: [marketplace e split](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/how-tos/integrate-marketplace), [captura](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/payment-management/capture-authorized-payment), [PIX](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/integration-configuration/integrate-pix), [webhooks](https://www.mercadopago.com.br/developers/pt/docs/your-integrations/notifications/webhooks), [OAuth](https://www.mercadopago.com.br/developers/pt/docs/checkout-api-payments/additional-content/security/oauth/creation).
-
-## Notificações e conexão com o frontend existente
-
-`GET /notifications?after=<ultimo-id>` retorna eventos duráveis. `GET /notifications/stream` transmite SSE com `id`, `event` e `data`; retome usando `Last-Event-ID` ou `after`. Envie Bearer via `fetch` streaming, pois `EventSource` nativo não permite configurar esse header. A sessão é revalidada durante a conexão; há heartbeat, limite de 5 conexões por usuário e reconexão após 5 minutos.
-
-Cada novo pedido possui `slaDeadline`, que permite contagem regressiva e alerta visual/sonoro contínuo no frontend até aceite, recusa ou timeout. A API publica os dados; reproduzir áudio exige permissão/interação no navegador.
-
-O frontend em `../frontend` continua sendo o protótipo com estado local; **não está conectado automaticamente ao backend**. Seus objetos não são o contrato do servidor. Use o OpenAPI para gerar um cliente, traduza portes/espécies para os enums e envie IDs no checkout. Remova a criação local de pedidos e o fallback silencioso quando conectar as telas. A API mantém a base `/api/v1` já prevista no projeto.
-
-## Banco e implantação
-
-Para PostgreSQL local via Docker:
-
-```powershell
-Copy-Item .env.example .env
-# Edite DATABASE_PASSWORD e, se necessário, as credenciais iniciais do administrador.
-docker compose up --build
-```
-
-O Compose fornecido é de desenvolvimento e usa pagamentos simulados. Para produção, configure `SPRING_PROFILES_ACTIVE=prod`, `DATABASE_URL=jdbc:postgresql://...`, `DATABASE_USERNAME`, `DATABASE_PASSWORD` e as variáveis Mercado Pago. Swagger fica desabilitado. Use HTTPS no proxy e `CORS_ORIGINS` restrito ao frontend.
-
-Flyway aplica `src/main/resources/db/migration`. Hibernate apenas valida o esquema. Não é preciso apagar dados para reiniciar. A reserva usa lock pessimista da loja: evita overselling/sobreposição entre processos, com custo de serializar as escritas de cada loja. O worker também usa esse lock e timeouts HTTP de 5s/10s. PostgreSQL e Docker estão configurados, mas a validação executada neste ambiente usa H2 em modo PostgreSQL.
-
-## Testes e artefatos de API
-
-- `mvnw test`: regras, concorrência, autenticação, autorização e contrato OpenAPI; simulação externa é ignorada se não estiver habilitada.
-- `../postman/specs/pethub.openapi.json`: exportação do `/v3/api-docs`; o código anotado é a origem deste contrato.
-- `../postman/collections/pethub-smoke`: testes HTTP reutilizáveis contra o backend em execução.
-- `../postman/mocks/mercadopago`: mock derivado da documentação pública; não é mock oficial do provedor. Busca por workspace proprietário foi dispensada porque não havia sessão Postman de equipe autenticada.
-
-Depois de alterar endpoints, atualize a exportação com a API em execução: `python scripts/export-openapi.py`. Para outra porta, use `--url http://localhost:8081/v3/api-docs`. O exportador preserva UTF-8 e o contrato usa servidor relativo para funcionar em qualquer ambiente.
-
-Na raiz do repositório, inicie a simulação:
-
-```powershell
-postman simulation run postman/simulations/mercadopago.sim.yaml --port 4501 --no-history
-```
-
-Em outro terminal:
+No PowerShell, a partir da raiz do repositório:
 
 ```powershell
 cd backend
-$env:MP_SIMULATION_URL='http://127.0.0.1:4501/mercadopago'
-.\mvnw.cmd '-Dtest=MercadoPagoSimulationTest' test
+.\mvnw.cmd spring-boot:run
 ```
 
-Essa suíte exercita o cliente HTTP real e o banco: autorização/captura, PIX pendente, webhook assinado, OAuth, resposta perdida após cobrança, idempotência e falha de estorno. Não prova liquidação bancária real. O servidor de simulação só escuta em loopback. Artefatos de testes e documentação permanecem locais, sem publicação remota.
+No Linux/macOS, use `sh mvnw spring-boot:run` dentro de `backend`.
 
-Para a coleção HTTP, com a API local e o administrador configurados:
+| Recurso | Endereço local |
+| --- | --- |
+| Swagger UI — explorar e testar a API | http://localhost:8080/swagger-ui/index.html |
+| API REST | http://localhost:8080/api/v1 |
+| Contrato OpenAPI | http://localhost:8080/v3/api-docs |
+| Health check | http://localhost:8080/actuator/health |
+
+O perfil padrão `local` funciona sem credenciais Mercado Pago e guarda os dados em `backend/data/`. **Os pagamentos desse perfil são fictícios e não movimentam dinheiro.**
+
+Para testar o fluxo completo de uma loja, configure a conta administrativa, cadastre o lojista e credencie a loja conforme o [guia do backend](backend/README.md#administrador-e-credenciamento). Não há senha administrativa fixa no projeto.
+
+### 2. Iniciar o frontend
+
+Abra outro terminal na raiz do repositório:
 
 ```powershell
-postman collection run postman/collections/pethub-smoke --no-report-events --delay-request 300 --env-var "adminEmail=$env:PETHUB_ADMIN_EMAIL" --env-var "adminPassword=$env:PETHUB_ADMIN_PASSWORD"
+cd frontend
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Execute esse comando na raiz do repositório. A coleção cria contas/loja/pedido de teste com UUID no nome/e-mail e usa tokens apenas no escopo da execução. Não a aponte para produção; o fluxo espera pagamento simulado. Para usar outra porta, acrescente `--env-var "baseUrl=http://localhost:8081"`.
+No Linux/macOS, use `npm ci` e `npm run dev`.
+
+Acesse **http://localhost:5173** para navegar no protótipo. Neste estágio, as ações das telas usam estado local; iniciar os dois processos ainda não conecta automaticamente os fluxos do frontend à API.
+
+Configurações de ambiente, Docker Compose, autenticação, SSE e Mercado Pago estão detalhadas no [README do backend](backend/README.md).
+
+## Testes e evidências
+
+Resultados registrados em **31/10/2026**, com H2 em modo PostgreSQL e migrações aplicadas:
+
+| Verificação | Resultado registrado |
+| --- | --- |
+| [Regras de negócio e concorrência](backend/src/test/java/br/com/pethub/integration/BusinessRulesTest.java) | 18 testes aprovados |
+| [Segurança HTTP e contrato](backend/src/test/java/br/com/pethub/integration/HttpSecurityTest.java) | 3 testes aprovados |
+| [Integração com provedor simulado](backend/src/test/java/br/com/pethub/integration/MercadoPagoSimulationTest.java) | 6 testes aprovados |
+| [Coleção HTTP Postman](postman/collections/pethub-smoke) | 19 requisições, 31 asserções e zero falhas |
+| Build Maven `verify` | Concluído, com geração do JAR executável |
+| Notificações SSE | Recebimento de evento, cursor e replay verificados com a aplicação iniciada |
+
+Os cenários incluem disputa concorrente por estoque e baia, timeout de aceite, no-show, autorização de adicionais, revogação de sessão, cobrança com resposta perdida e indisponibilidade de estorno.
+
+Para executar a suíte local, dentro de `backend`:
+
+```powershell
+.\mvnw.cmd test
+```
+
+Esse comando executa os **21 testes locais**. Os **6 testes de integração simulada** são ignorados quando `MP_SIMULATION_URL` não está configurada. As instruções para iniciar a simulação e executar a coleção estão no [guia de testes do backend](backend/README.md#testes-e-artefatos-de-api).
+
+O [relatório de validação](backend/docs/validacao.md) detalha o alcance das verificações. Testes contra a simulação não comprovam liquidação bancária, repasse ou compatibilidade homologada com uma conta real do Mercado Pago.
+
+## Navegue pelo código
+
+```text
+├── backend/
+│   ├── src/main/java/br/com/pethub/    # API, regras, segurança e pagamentos
+│   ├── src/main/resources/            # Perfis e migrações Flyway
+│   ├── src/test/                      # Regras, concorrência e integrações
+│   ├── docs/                          # Contrato, requisitos e validação
+│   ├── Dockerfile
+│   └── compose.yml
+├── frontend/
+│   └── src/                           # Telas, componentes e estado do protótipo
+├── postman/
+│   ├── specs/                         # Contrato OpenAPI exportado
+│   ├── collections/                   # Fluxo HTTP de verificação
+│   ├── mocks/                         # Comportamentos simulados do provedor
+│   └── simulations/                   # Cenários de integração
+└── prototipo_aplicativo_pethub/        # Referências visuais
+```
+
+**Sugestões de leitura:** [OrderService](backend/src/main/java/br/com/pethub/service/OrderService.java) para as regras de pedido e reserva; [PaymentWorker](backend/src/main/java/br/com/pethub/payment/PaymentWorker.java) para o processamento financeiro; [MercadoPagoGateway](backend/src/main/java/br/com/pethub/integration/mercadopago/MercadoPagoGateway.java) para o adaptador externo; e [BusinessRulesTest](backend/src/test/java/br/com/pethub/integration/BusinessRulesTest.java) para exemplos verificáveis do comportamento esperado.
+
+## Próximas etapas
+
+- [ ] Conectar as telas ao contrato da API e substituir o estado simulado dos fluxos de negócio.
+- [ ] Integrar notificações SSE, contagem regressiva e alertas do lojista aos eventos reais do backend.
+- [ ] Concluir as telas de OAuth e tokenização de cartão e homologar o Mercado Pago em conta de teste.
+- [ ] Validar PostgreSQL e execução em containers com testes de integração.
+- [ ] Automatizar build e testes em integração contínua.
+- [ ] Publicar um ambiente de demonstração com dados de exemplo.
+
+As previsões financeiras D+7/D+1 e antecipação representam registros internos; sua execução bancária depende do provedor e de homologação comercial. Os limites e as configurações estão descritos na [documentação da integração](backend/README.md#mercado-pago).
+
+## Autor
+
+**Eduardo Campos Aguiar** · [GitHub @eduardoaguiarc](https://github.com/eduardoaguiarc)
+
+Projeto de portfólio voltado a oportunidades de **estágio em desenvolvimento de software**, com interesse em **backend Java e Spring**. O PetHub reúne modelagem de negócio, implementação de regras, persistência, segurança e testes em um domínio próximo de uma operação real.
