@@ -1,0 +1,34 @@
+$kind: http-request
+name: create-store
+method: POST
+url: '{{baseUrl}}/api/v1/merchant/store'
+order: 6000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{merchantToken}}'
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Smoke {{runId}}",
+      "description": "Loja de teste",
+      "address": "Rua A",
+      "neighborhood": "Centro",
+      "latitude": -12.97,
+      "longitude": -38.5,
+      "serviceRadiusKm": 10,
+      "deliveryPreparationMinutes": 15,
+      "deliveryFee": 8,
+      "taxiDogFee": 15,
+      "timeZone": "America/Bahia"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));
+      pm.variables.set('storeId', pm.response.json().id); pm.test('approval required', () => pm.expect(pm.response.json().status).to.eql('PENDENTE'));

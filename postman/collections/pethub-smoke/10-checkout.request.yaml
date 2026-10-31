@@ -1,0 +1,37 @@
+$kind: http-request
+name: checkout
+method: POST
+url: '{{baseUrl}}/api/v1/orders'
+order: 10000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+headers:
+  - key: Idempotency-Key
+    value: '{{runId}}'
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "storeId": "{{storeId}}",
+      "products": [
+        {
+          "productId": "{{productId}}",
+          "quantity": 2
+        }
+      ],
+      "fulfillmentMode": "RETIRADA_HIBRIDA",
+      "payment": {
+        "method": "PIX",
+        "installments": 1
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));
+      pm.variables.set('orderId', pm.response.json().id); pm.test('server prices and split', () => { const o=pm.response.json(); pm.expect(o.total).to.eql(79.98); pm.expect(o.platformTakeRateAmount).to.eql(8); });

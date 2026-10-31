@@ -1,0 +1,15 @@
+$kind: http-request
+name: approve-store
+method: POST
+url: '{{baseUrl}}/api/v1/admin/stores/{{storeId}}/approve'
+order: 7000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('active', () => pm.expect(pm.response.json().status).to.eql('ATIVA'));

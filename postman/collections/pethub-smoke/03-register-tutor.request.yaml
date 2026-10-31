@@ -1,0 +1,23 @@
+$kind: http-request
+name: register-tutor
+method: POST
+url: '{{baseUrl}}/api/v1/auth/register'
+order: 3000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Smoke tutor",
+      "email": "tutor-{{runId}}@test.invalid",
+      "password": "SmokeTestPassword123!",
+      "role": "TUTOR"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));
+      pm.variables.set('tutorToken', pm.response.json().accessToken);
+      pm.test('password hidden', () => pm.expect(pm.response.json().user).not.to.have.property('passwordHash'));

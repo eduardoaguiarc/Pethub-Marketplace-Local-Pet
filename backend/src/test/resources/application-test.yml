@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:pethub-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000
+    username: sa
+    password: ""
+pethub:
+  jobs-enabled: false
+  payment-mode: local
+  mp:
+    webhook-secret: test-webhook-secret-not-for-production
+logging:
+  level:
+    root: WARN

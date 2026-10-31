@@ -1,0 +1,14 @@
+$kind: http-request
+name: logout
+method: POST
+url: '{{baseUrl}}/api/v1/auth/logout'
+order: 18000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 204', () => pm.response.to.have.status(204));

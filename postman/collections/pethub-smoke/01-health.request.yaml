@@ -1,0 +1,13 @@
+$kind: http-request
+name: health
+method: GET
+url: '{{baseUrl}}/actuator/health'
+order: 1000
+scripts:
+  - type: beforeRequest
+    code: |-
+      pm.variables.set('runId', pm.variables.replaceIn('{{$guid}}'));
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('database up', () => pm.expect(pm.response.json().status).to.eql('UP'));

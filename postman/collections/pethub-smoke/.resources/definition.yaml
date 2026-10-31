@@ -1,0 +1,12 @@
+$kind: collection
+name: PetHub HTTP smoke
+description: Fluxo real contra perfil local; requer conta ADMIN inicializada. Cria dados de teste identificados por UUID.
+variables:
+  - key: baseUrl
+    value: http://localhost:8080
+  - key: adminEmail
+    value: ''
+  - key: adminPassword
+    value: ''
+auth:
+  type: noauth

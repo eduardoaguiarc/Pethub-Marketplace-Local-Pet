@@ -1,0 +1,3 @@
+# Optional profile for dedicated scheduler instances; transactional store locks allow more than one worker.
+pethub:
+  jobs-enabled: true

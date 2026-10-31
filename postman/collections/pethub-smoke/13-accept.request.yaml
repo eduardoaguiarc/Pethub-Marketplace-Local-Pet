@@ -1,0 +1,15 @@
+$kind: http-request
+name: accept
+method: POST
+url: '{{baseUrl}}/api/v1/merchant/orders/{{orderId}}/accept'
+order: 13000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{merchantToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('accepted',()=>pm.expect(pm.response.json().status).to.eql('ACEITO_EM_PREPARO'));

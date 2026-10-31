@@ -1,0 +1,15 @@
+$kind: http-request
+name: notifications
+method: GET
+url: '{{baseUrl}}/api/v1/notifications'
+order: 17000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('durable events',()=>pm.expect(pm.response.json().some(n=>n.type==='ORDER_COMPLETED')).to.eql(true));

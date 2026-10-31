@@ -1,0 +1,9 @@
+.tools/
+tmp/
+**/target/
+**/.env
+**/data/
+**/*.log
+**/.idea/
+**/*.iml
+postman/.dependencies/

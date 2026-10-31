@@ -1,0 +1,34 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: pethub
+      POSTGRES_USER: pethub
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?Defina DATABASE_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pethub-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pethub -d pethub"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/pethub
+      SPRING_DATASOURCE_USERNAME: pethub
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
+      PAYMENT_MODE: local
+      PETHUB_ADMIN_EMAIL: ${PETHUB_ADMIN_EMAIL:-}
+      PETHUB_ADMIN_PASSWORD: ${PETHUB_ADMIN_PASSWORD:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+volumes:
+  pethub-db:

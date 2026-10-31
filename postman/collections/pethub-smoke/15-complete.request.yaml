@@ -1,0 +1,15 @@
+$kind: http-request
+name: complete
+method: POST
+url: '{{baseUrl}}/api/v1/merchant/orders/{{orderId}}/complete'
+order: 15000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{merchantToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('completed',()=>pm.expect(pm.response.json().status).to.eql('CONCLUIDO'));

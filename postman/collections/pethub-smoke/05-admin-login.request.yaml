@@ -1,0 +1,20 @@
+$kind: http-request
+name: admin-login
+method: POST
+url: '{{baseUrl}}/api/v1/auth/login'
+order: 5000
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{adminEmail}}",
+      "password": "{{adminPassword}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.variables.set('adminToken', pm.response.json().accessToken);

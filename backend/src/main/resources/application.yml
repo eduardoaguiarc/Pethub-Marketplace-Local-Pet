@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: pethub
+  profiles:
+    default: local
+  task:
+    scheduling:
+      pool:
+        size: 4
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 10000
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: WARN
+    org.hibernate.SQL: WARN
+    org.springframework.boot.autoconfigure: INFO
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+pethub:
+  cors-origins: ${CORS_ORIGINS:http://localhost:5173}
+  session-hours: 12
+  jobs-enabled: true
+  payment-mode: ${PAYMENT_MODE:mercadopago}
+  encryption-key: ${PETHUB_ENCRYPTION_KEY:}
+  advance-fee-rate: ${ADVANCE_FEE_RATE:0.02}
+  mp:
+    base-url: ${MP_BASE_URL:https://api.mercadopago.com}
+    client-id: ${MP_CLIENT_ID:}
+    client-secret: ${MP_CLIENT_SECRET:}
+    redirect-uri: ${MP_REDIRECT_URI:http://localhost:5173/lojista/mercadopago}
+    webhook-url: ${MP_WEBHOOK_URL:}
+    webhook-secret: ${MP_WEBHOOK_SECRET:}

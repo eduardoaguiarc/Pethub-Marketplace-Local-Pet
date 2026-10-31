@@ -1,0 +1,30 @@
+$kind: http-request
+name: create-product
+method: POST
+url: '{{baseUrl}}/api/v1/merchant/products'
+order: 8000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{merchantToken}}'
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Racao smoke",
+      "description": "1kg",
+      "category": "RACOES",
+      "price": 39.99,
+      "stock": 5,
+      "unitLabel": "1kg",
+      "active": true
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));
+      pm.variables.set('productId', pm.response.json().id);

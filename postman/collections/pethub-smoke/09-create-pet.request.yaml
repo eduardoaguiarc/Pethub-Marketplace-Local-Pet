@@ -1,0 +1,30 @@
+$kind: http-request
+name: create-pet
+method: POST
+url: '{{baseUrl}}/api/v1/pets'
+order: 9000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Luna",
+      "species": "CAO",
+      "breed": "SRD",
+      "ageLabel": "2 anos",
+      "weightKg": 10,
+      "size": "PEQUENO",
+      "vaccineStatus": "Em dia",
+      "severeDermatitisHistory": false
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));

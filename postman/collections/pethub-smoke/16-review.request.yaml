@@ -1,0 +1,24 @@
+$kind: http-request
+name: review
+method: POST
+url: '{{baseUrl}}/api/v1/orders/{{orderId}}/review'
+order: 16000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+headers:
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "rating": 5,
+      "comment": "Smoke OK"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));

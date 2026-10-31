@@ -1,0 +1,37 @@
+$kind: http-request
+name: checkout-replay
+method: POST
+url: '{{baseUrl}}/api/v1/orders'
+order: 11000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+headers:
+  - key: Idempotency-Key
+    value: '{{runId}}'
+  - key: Content-Type
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "storeId": "{{storeId}}",
+      "products": [
+        {
+          "productId": "{{productId}}",
+          "quantity": 2
+        }
+      ],
+      "fulfillmentMode": "RETIRADA_HIBRIDA",
+      "payment": {
+        "method": "PIX",
+        "installments": 1
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 201', () => pm.response.to.have.status(201));
+      pm.test('same order on replay', () => pm.expect(pm.response.json().id).to.eql(pm.variables.get('orderId')));

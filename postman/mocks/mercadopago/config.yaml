@@ -1,0 +1,12 @@
+version: 1
+id: 4916cb29-5646-40a7-a775-332681ca2015
+name: mercadopago
+slug: mercadopago
+protocol: http
+port: 4500
+origin: https://api.mercadopago.com
+interceptRequests: true
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

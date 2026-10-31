@@ -1,0 +1,14 @@
+$kind: http-request
+name: revoked-session
+method: GET
+url: '{{baseUrl}}/api/v1/pets'
+order: 19000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 401', () => pm.response.to.have.status(401));

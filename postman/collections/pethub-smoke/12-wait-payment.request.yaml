@@ -1,0 +1,15 @@
+$kind: http-request
+name: wait-payment
+method: GET
+url: '{{baseUrl}}/api/v1/orders/{{orderId}}/payments'
+order: 12000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tutorToken}}'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      const p=pm.response.json()[0]; const tries=Number(pm.variables.get('polls')||0)+1; pm.variables.set('polls',tries); if(p.status==='CRIADO' && tries<30) { pm.execution.setNextRequest('wait-payment'); } else { pm.test('local payment confirmed',()=>pm.expect(p.status).to.eql('PAGO')); pm.test('simulation explicit',()=>pm.expect(p.localSimulation).to.eql(true)); }
