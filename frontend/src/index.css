@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-terracota: #B65744;
+  --color-argila: #A9503B;
+  --color-creme: #FFF6EB;
+  --color-mel: #F3B63F;
+  --color-rose: #C57969;
+  --color-carvao: #302B29;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-brand: 'Nunito', 'Plus Jakarta Sans', sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: #FFF6EB;
+    color: #302B29;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Hide scrollbars on horizontal carousels while keeping smooth touch scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes curtainPull {
+  0% {
+    transform: translateY(-88%);
+  }
+  45% {
+    transform: translateY(-48%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes catSwing {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-curtain-pull {
+  animation: curtainPull 1.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-cat-swing {
+  transform-origin: top center;
+  animation: catSwing 0.8s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeInScale 0.35s ease-out forwards;
+}
